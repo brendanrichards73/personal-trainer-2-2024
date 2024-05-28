@@ -28,7 +28,7 @@ export const HomeScreen = () => {
                 style={styles.image}
             >
                 <View>
-                    <Text style={styles.text}>MiFitness</Text>
+                    <Text style={styles.text}>LMFitness</Text>
                 </View>
             </ImageBackground>
         </>
