@@ -6,6 +6,7 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
+    FlatList,
 } from "react-native";
 import { getExerciseTypes } from "../api/api";
 import { WorkoutScreen } from "../components/workout-screen";
@@ -16,6 +17,11 @@ const image = require("../../assets/images/dumbell-image.jpg");
 
 type Props = {
     navigation: FitnessPlansNavigationProp;
+};
+
+type Workout = {
+    id: string;
+    name: string;
 };
 
 const styles = StyleSheet.create({
@@ -33,7 +39,7 @@ const styles = StyleSheet.create({
     },
     workoutCategoryContainer: {
         justifyContent: "center",
-        height: 50,
+        height: 80,
         width: "45%",
         borderColor: "white",
         borderWidth: 2,
@@ -90,6 +96,25 @@ export const FitnessPlans = ({ navigation }: Props) => {
             setWorkouts(response);
         });
     }, []);
+
+    const renderItem = ({ item }: { item: Workout }) => {
+        const { id, name } = item;
+        return (
+            <TouchableOpacity
+                key={id}
+                onPress={() =>
+                    navigation.navigate("Workout Screen", {
+                        workoutCategoryId: id,
+                    })
+                }
+            >
+                <View style={styles.workoutCategoryContainer}>
+                    <Text style={styles.workoutCategoryName}>{name}</Text>
+                </View>
+            </TouchableOpacity>
+        );
+    };
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -97,22 +122,11 @@ export const FitnessPlans = ({ navigation }: Props) => {
                 resizeMode="cover"
                 style={styles.image}
             >
-                {workouts.map(({ id, name }) => (
-                    <TouchableOpacity
-                        key={id}
-                        onPress={() =>
-                            navigation.navigate("Workout Screen", {
-                                workoutCategoryId: id,
-                            })
-                        }
-                    >
-                        <View style={styles.workoutCategoryContainer}>
-                            <Text style={styles.workoutCategoryName}>
-                                {name}
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                ))}
+                <FlatList
+                    data={workouts}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                />
             </ImageBackground>
         </View>
     );

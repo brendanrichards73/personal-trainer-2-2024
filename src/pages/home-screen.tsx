@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     text: {
         paddingLeft: 20,
         color: "white",
-        fontFamily: "Milote",
         fontSize: 45,
         textAlign: "left",
         fontWeight: "bold",
